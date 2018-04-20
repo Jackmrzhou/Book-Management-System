@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<form method="POST">
+	<div class="container">
+		<center>
+			<div style="width: 40%;">
+				<label>Administrator ID:</label>
+				<input name="ID" placeholder="Administrator ID" class="form-control">
+				<label>Password:</label>
+				<input type="password" name="passwd" placeholder="Password" class="form-control">
+				<br>
+				<input type="submit" class="btn btn-success" value="Submit" id="sub">
+			</div>
+			<div>
+				<h3><span class="label label-danger">{{msg}}</span></h3>
+			</div>
+		</center>
+	</div>
+</form>
+<script type="text/javascript">login_control()</script>
+{% endblock %}

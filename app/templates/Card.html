@@ -1,0 +1,66 @@
+{% extends "manage.html" %}
+
+{% block content %}
+<div class="container">
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Card Number:</label>
+			<div class="col-sm-6">
+				<input type="" name="card_num" class="form-control">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Operation:</label>
+			<div class="col-sm-6">
+				<select id="op" name="operation" class="form-control" onchange="disp_input(this.options[this.options.selectedIndex].value)">
+					<option value="Del">Delete</option>
+					<option value="Add">Add</option>
+				</select>
+			</div>
+		</div>
+		<div id="card_info" style="display: none;">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Name</label>
+				<div class="col-sm-6">
+					<input type="" name="name" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Department</label>
+				<div class="col-sm-6">
+					<input type="" name="department" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Type</label>
+				<div class="col-sm-6">
+					<input type="" name="type" class="form-control">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-offset-3 col-sm-6">
+			<input type="button" id="sub" value="submit" class="btn btn-success" disabled onclick="send_data();">
+		</div>
+	</div>
+
+	<div id="msg"></div>
+
+	<div class="modal fade" id="confirm_del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">Confirm Deletion.</h4>
+	            </div>
+	            <div class="modal-body">Do you really want to delete?</div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	                <button id="cofirmbtn" type="button" class="btn btn-primary" onclick="del_confirmed();">Confirm</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+</div>
+
+<script type="text/javascript">Card_button_control()</script>
+{% endblock %}

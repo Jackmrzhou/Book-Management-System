@@ -39,11 +39,12 @@ class Card(db.Model):
 		return "<Card {}>".format(self.card_num)
 
 class Borrow(db.Model):
+	id = db.Column(db.Integer, primary_key = True)
 
-	card_num = db.Column(db.String(20), db.ForeignKey("card.card_num"), primary_key = True)
+	card_num = db.Column(db.String(20), db.ForeignKey("card.card_num"))
 	card = db.relationship("Card", backref = db.backref("borrows", lazy = True))
 
-	book_num = db.Column(db.String(30), db.ForeignKey("book.book_num"), primary_key = True)
+	book_num = db.Column(db.String(30), db.ForeignKey("book.book_num"))
 	book = db.relationship("Book", backref = db.backref("borrows", lazy = True))
 
 	borrow_date = db.Column(db.DateTime)
