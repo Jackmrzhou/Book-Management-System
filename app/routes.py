@@ -15,7 +15,7 @@ def login():
 	if form_dict:
 		admin = Administrator.query.filter_by(id = form_dict.get("ID")).first()
 		if admin:
-			if form_dict.get("passwd") == admin.passwd:
+			if admin.check_passwd(form_dict.get("passwd")):
 				login_user(admin)
 				next = request.args.get('next')
 				return redirect(next or "/manage")
@@ -33,14 +33,11 @@ def logout():
 @app.route("/manage")
 @login_required
 def manage():
-	return render_template("manage.html")
+	return render_template("manage_index.html", user=current_user)
 
 @app.route("/Add", methods = ["GET", "POST"])
 @login_required
 def Addbooks():
-	data_dict = request.form.to_dict()
-	if data_dict:
-		add_one_book(data_dict)
 	return render_template("Add.html")
 
 @app.route("/bookmanage", methods = ["POST", "GET"])
@@ -52,6 +49,13 @@ def borrow():
 @login_required
 def card_manage():
 	return render_template("Card.html")
+
+@app.route("/search")
+def search():
+	is_public = False
+	if not current_user.is_authenticated:
+		is_public = True
+	return render_template("search.html", is_public = is_public)
 
 @app.route("/test")
 def test():

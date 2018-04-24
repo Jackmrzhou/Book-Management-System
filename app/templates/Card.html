@@ -4,12 +4,6 @@
 <div class="container">
 	<div class="form-horizontal">
 		<div class="form-group">
-			<label class="col-sm-3 control-label">Card Number:</label>
-			<div class="col-sm-6">
-				<input type="" name="card_num" class="form-control">
-			</div>
-		</div>
-		<div class="form-group">
 			<label class="col-sm-3 control-label">Operation:</label>
 			<div class="col-sm-6">
 				<select id="op" name="operation" class="form-control" onchange="disp_input(this.options[this.options.selectedIndex].value)">
@@ -18,32 +12,51 @@
 				</select>
 			</div>
 		</div>
-		<div id="card_info" style="display: none;">
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Name</label>
-				<div class="col-sm-6">
-					<input type="" name="name" class="form-control">
+		<form id="del_card">
+			<div id="del-card-input">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Card Number:</label>
+					<div class="col-sm-6">
+						<input id="card_num_1" name="card_num" class="form-control">
+					</div>
+				</div>
+				<div class="col-sm-offset-3 col-sm-6">
+					<input type="submit" id="del" value="Delete" class="btn btn-warning">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Department</label>
-				<div class="col-sm-6">
-					<input type="" name="department" class="form-control">
+		</form>
+		<form id="create_card">
+			<div id="card_info" style="display: none;">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Card Number:</label>
+					<div class="col-sm-6">
+						<input id="card_num_2" name="card_num" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Name</label>
+					<div class="col-sm-6">
+						<input id="name" name="name" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Department</label>
+					<div class="col-sm-6">
+						<input id="department" name="department" class="form-control">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Type</label>
+					<div class="col-sm-6">
+						<input id="type" name="type" class="form-control">
+					</div>
+				</div>
+				<div class="col-sm-offset-3 col-sm-6">
+					<input type="submit" id="cret" value="Create" class="btn btn-success">
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Type</label>
-				<div class="col-sm-6">
-					<input type="" name="type" class="form-control">
-				</div>
-			</div>
-		</div>
-		<div class="col-sm-offset-3 col-sm-6">
-			<input type="button" id="sub" value="submit" class="btn btn-success" disabled onclick="send_data();">
-		</div>
+		</form>
 	</div>
-
-	<div id="msg"></div>
 
 	<div class="modal fade" id="confirm_del" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
@@ -55,12 +68,17 @@
 	            <div class="modal-body">Do you really want to delete?</div>
 	            <div class="modal-footer">
 	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	                <button id="cofirmbtn" type="button" class="btn btn-primary" onclick="del_confirmed();">Confirm</button>
+	                <button id="cofirmbtn" type="button" class="btn btn-warning" onclick="del_confirmed();">Confirm</button>
 	            </div>
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal -->
 	</div>
 </div>
+<div class="container">
+	<div id="msg" class="col-sm-offset-1 col-sm-8">
+		
+	</div>
+</div>
 
-<script type="text/javascript">Card_button_control()</script>
+<script type="text/javascript">card_input_control()</script>
 {% endblock %}

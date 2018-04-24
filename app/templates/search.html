@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block body %}
+{% if not is_public %}
+<nav class="navbar navbar-default">
+	<div class="container">
+		<div class="navbar-header">
+			<a href="/manage" class="navbar-brand">Book Management System</a>
+		</div>
+		<ul class="nav navbar-nav">
+			<li><a href="/Add">Add Books</a></li>
+			<li><a href="/bookmanage">Borrow Or Return Book</a></li>
+			<li><a href="/Card">Card Management</a></li>
+			<li><a href="/search">Search Books</a></li>
+		</ul>
+		<div class="navbar-form navbar-right">
+			<button class="btn btn-primary" onclick="location='/logout'">Logout</button>
+		</div>
+	</div>
+</nav>
+{% else %}
+<nav class="navbar navbar-default">
+	<div class="container">
+		<div class="navbar-header">
+			<a href="/" class="navbar-brand">Book Management System</a>
+		</div>
+	</div>
+</nav>
+{% endif %}
+<div class="container">
+	<div class="form-horizontal" >
+		<form id="search-form">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+					Category
+				</label>
+				<div class="col-sm-6">
+					<input id="Category" name="Category" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+					Title
+				</label>
+				<div class="col-sm-6">
+					<input id="Title" name="Title" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+					Publisher
+				</label>
+				<div class="col-sm-6">
+					<input id="Publisher" name="Publisher" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+					Author
+				</label>
+				<div class="col-sm-6">
+					<input id="Author" name="Author" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+					Year Range
+				</label>
+				<div class="col-sm-6 input-group">
+					<input id="Year_start" name="Year_start" class="form-control">
+					<span class="input-group-addon">To</span>
+					<input id="Year_end" name="Year_end" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">
+					Price Range
+				</label>
+				<div class="col-sm-6 input-group">
+					<input id="Price_start" name="Price_start" class="form-control">
+					<span class="input-group-addon">To</span>
+					<input id="Price_end" name="Price_end" class="form-control">
+				</div>
+			</div>
+			<div class="col-sm-offset-3 col-sm-6">
+				<input type="submit" id="sub" name="submit" value="Search" class="btn btn-success">
+			</div>
+		</form>
+	</div>
+	<div class="container">
+		<div id="msg" class="col-sm-offset-1 col-sm-8">
+			
+		</div>
+	</div>
+	<div id="book_info" class="table-responsive">
+
+	</div>
+</div>
+
+<script type="text/javascript">check_search_input();</script>
+{% endblock %}

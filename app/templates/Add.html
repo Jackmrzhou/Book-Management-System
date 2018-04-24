@@ -2,77 +2,99 @@
 
 {% block content %}
 <div class="container">
-	<form method="POST">
-		<div class="form-horizontal">
-			<div class="form-group">
-				<label class="col-sm-3 control-label">Operation:</label>
-				<div class="col-sm-6">
-					<select id="op" name="operation" class="form-control" onchange="disp_input_book(this.options[this.options.selectedIndex].value)">
-						<option value="sgl">Add Single Book</option>
-						<option value="mul">Add Multiple Books</option>
-					</select>
-				</div>
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-sm-3 control-label">Operation:</label>
+			<div class="col-sm-6">
+				<select id="op" name="operation" class="form-control" onchange="disp_input_book(this.options[this.options.selectedIndex].value)">
+					<option value="sgl">Add Single Book</option>
+					<option value="mul">Add Multiple Books</option>
+				</select>
 			</div>
+		</div>
+		<form method="POST" id="sgl_form">
 			<div id="single">
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Book Number</label>
 					<div class="col-sm-6">
-						<input name="Book_Number" class="form-control">
+						<input id="Book_Number" name="Book_Number" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Category</label>
 					<div class="col-sm-6">
-						<input name="Category" class="form-control">
+						<input id="Category" name="Category" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Book Title</label>
 					<div class="col-sm-6">
-						<input type="" name="Book_Title" class="form-control">
+						<input id="Book_Title" name="Book_Title" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Publisher</label>
 					<div class="col-sm-6">
-						<input type="" name="Publisher" class="form-control">
+						<input id="Publisher" name="Publisher" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Year</label>
 					<div class="col-sm-6">
-						<input type="" name="Year" class="form-control">
+						<input id="Year" name="Year" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Author</label>
 					<div class="col-sm-6">
-						<input type="" name="Author" class="form-control">
+						<input id="Author" name="Author" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Price</label>
 					<div class="col-sm-6">
-						<input type="" name="Price" class="form-control">
+						<input id="Price" name="Price" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Total</label>
 					<div class="col-sm-6">
-						<input type="" name="Total" class="form-control">
+						<input id="Total" name="Total" class="form-control">
 					</div>
 				</div>
 				<div class="col-sm-offset-3 col-sm-6">
-					<input type="submit" name="sub" id="sub_sgl" value="Add One" class="btn btn-success" disabled>
+					<input type="submit" name="sub" id="sub_sgl" value="Add One" class="btn btn-success" >
 				</div>
 			</div>
+		</form>
+		<form method="POST" id="mul_form">
 			<div id="multiple" style="display: none;">
 				<div class="col-sm-offset-3 col-sm-6">
-					<input type="button" id="sub_mul" class="btn btn-primary" value="Upload File">
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="btn btn-primary" for="my-file-selector">
+							    <input name="file" id="my-file-selector" type="file" style="display:none"
+							    onchange="$('#upload-file-info').html(this.files[0].name)">
+							    Browse
+							</label>
+						</div>
+					<span class='label label-info' id="upload-file-info"></span>
+				</div>
+					<div class="form-group">
+						<div class="col-sm-6">
+							<input type="submit" id="sub_mul" class="btn btn-primary" value="Upload File"">
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</div>
 </div>
-<script type="text/javascript">book_button_control();</script>
+<div class="container">
+	<div id="msg" class="col-sm-offset-3 col-sm-6">
+		
+	</div>
+</div>
+<script type="text/javascript">check_book_input();</script>
+<script type="text/javascript">bind_submit();</script>
 {% endblock %}

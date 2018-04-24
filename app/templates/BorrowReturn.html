@@ -4,9 +4,9 @@
 	<div class="form-horizontal">
 		<div class="form-group">
 			<label class="col-sm-3 control-label">Card Number:</label>
-			<div class="col-sm-6">
+			<div class="col-sm-6" id="card-div">
 				<div class="input-group">
-					<input type="" name="card_num" class="form-control">
+					<input id="card_num" name="card_num" class="form-control">
 					<span class="input-group-btn">
 						<input type="button" id="sub" value="Check Card" class="btn btn-success" onclick="check_card()" disabled>
 					</span>
@@ -15,7 +15,7 @@
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label">Book Number:</label>
-			<div class="col-sm-6">
+			<div class="col-sm-6" id="book-div">
 				<div class="input-group">
 					<input type="" name="book_num" class="form-control">
 					<span class="input-group-btn">
@@ -26,10 +26,12 @@
 			</div>
 		</div>
 	</div>
-	<div id="msg">
-		
+	<div class="container">
+		<div id="msg" class="col-sm-offset-1 col-sm-8">
+			
+		</div>
 	</div>
-	<div id="check_result" class="table-responsive">
+	<div id="book_info" class="table-responsive">
 
 	</div>
 </div>

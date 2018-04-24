@@ -1,13 +1,13 @@
 function disp_input(value){
     if(value == "Add"){
-        document.getElementById("card_info").style.display = "";
-        $("#sub").prop("disabled","disabled");
+        $("#del-card-input").hide();
+        $("#card_info").show();
+        $("#msg").html("");
     }
     else if(value == "Del"){
-        document.getElementById("card_info").style.display = "none";
-        if(check_input()){
-            $("#sub").removeAttr("disabled");
-        }
+        $("#del-card-input").show();
+        $("#card_info").hide();
+        $("#msg").html("");
     }
 }
 
@@ -16,9 +16,11 @@ function disp_input_book(value){
         $("#single").show();
         $("#multiple").hide();
         $("#sub_sgl").prop("#disabled", "disabled");
+        $("#msg").html("");
     }
     else if (value == "mul"){
         $("#single").hide();
         $("#multiple").show();
+        $("#msg").html("");
     }
 }

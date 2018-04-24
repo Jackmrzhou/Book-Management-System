@@ -21,3 +21,17 @@ div.footer-content{
 	float: right;
 	margin: 15px, 0, 15px, 0;
 }
+
+
+div.center-aligin{
+	position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+}
+
+.input-group[class*=col-]{
+	float: none;
+	padding-left: 15px;
+	padding-right: 15px;
+}

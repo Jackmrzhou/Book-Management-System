@@ -1,0 +1,28 @@
+{% extends "manage.html" %}
+
+{% block content %}
+<center>
+<div class="center-aligin">
+		<h1>Welcome {{user.name}}!</h1>
+		<h2 id="time">
+			
+		</h2>
+</div>
+</center>
+<script type="text/javascript">
+	$(document).ready(function(e) {		
+		function showTime(){       		
+			var nowDate=new Date();			    
+    		var month = nowDate.getMonth() + 1 < 10 ? "0" + (nowDate.getMonth() + 1) : nowDate.getMonth() + 1;    
+		    var date = nowDate.getDate() < 10 ? "0" + nowDate.getDate() : nowDate.getDate();    
+		    var hour = nowDate.getHours()< 10 ? "0" + nowDate.getHours() : nowDate.getHours();    
+		    var minute = nowDate.getMinutes()< 10 ? "0" + nowDate.getMinutes() : nowDate.getMinutes();    
+		    var second = nowDate.getSeconds()< 10 ? "0" + nowDate.getSeconds() : nowDate.getSeconds(); 			
+			var dateStr=month+"."+date+", "+hour+":"+minute+":"+second;				
+			$("#time").html(dateStr);		
+		}		
+		showTime();
+		var interval=window.setInterval(showTime,1000);    
+	});
+</script>
+{% endblock %}

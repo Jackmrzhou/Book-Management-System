@@ -5,6 +5,8 @@ from app.util import *
 from app.models import *
 from datetime import datetime
 import functools
+from werkzeug.utils import secure_filename
+import os
 
 def check_authen(func):
 	@functools.wraps(func)
@@ -115,5 +117,67 @@ def del_card():
 @check_authen
 def create_card():
 	data_dict = request.form.to_dict()
-	add_one_card(data_dict)
-	return jsonify({"status":1, "msg":"Creating card successfully!"})
+	status, msg = add_one_card(data_dict)
+	return jsonify({"status":status, "msg": msg})
+
+@app.route("/uploadapi", methods = ["POST"])
+@check_authen
+def upload():
+	try:
+		f = request.files['file']
+		f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+		return jsonify({"status":1})
+	except:
+		return jsonify({"status":0})
+
+
+@app.route("/addbookapi", methods = ["POST"])
+@check_authen
+def addbook():
+	data_dict = request.form.to_dict()
+	status, msg = add_one_book(data_dict)
+	return jsonify({"status":status, "msg" : msg})
+
+@app.route("/searchapi", methods = ["POST"])
+def searchapi():
+	data_dict = request.form.to_dict()
+	#front-end should check the emptiness
+	bs = Book.query
+	if data_dict.get("Category") != "":
+		bs = bs.filter(Book.category == data_dict["Category"])
+	if data_dict.get("Title") != "":
+		bs = bs.filter(Book.name == data_dict["Title"])
+	if data_dict.get("Publisher") != "":
+		bs = bs.filter(Book.publisher == data_dict["Publisher"])
+	if data_dict.get("Author") != "":
+		bs = bs.filter(Book.author == data_dict['Author'])
+	if data_dict.get("Year_start") != "":
+		bs = bs.filter(Book.year >= int(data_dict["Year_start"]))
+	if data_dict.get("Year_end") != "":
+		bs = bs.filter(Book.year <= int(data_dict['Year_end']))
+	if data_dict.get("Price_start") != "":
+		bs = bs.filter(Book.price >= float(data_dict['Price_start']))
+	if data_dict.get("Price_end") != "":
+		bs = bs.filter(Book.price <= float(data_dict['Price_end']))
+
+	bks = bs.all()
+	if (len(bks)==0):
+		return jsonify({"status":0, "msg":"Sorry, we can't find such books."})
+	return jsonify({
+		"status":1,
+		"Book":[{
+				"book_num":b.book_num,
+				"category":b.category,
+				"name":b.name,
+				"publisher":b.publisher,
+				"year":b.year,
+				"author":b.author,
+				"price":b.price,
+				"total":b.total,
+				"stock":b.stock
+			}for b in bks],
+		"msg" : "Totally {} records.".format(len(bks))
+		})
+
+
+

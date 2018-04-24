@@ -3,6 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class BaseConfig(object):
 	SECRET_KEY = "justtest"
+	UPLOAD_FOLDER = os.path.join(basedir, "upload/")
 
 
 class DevConfig(BaseConfig):

@@ -1,12 +1,24 @@
 from app import db
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Administrator(db.Model, UserMixin):
 
 	id = db.Column(db.String(20), primary_key = True)
 	name = db.Column(db.String(20))
-	passwd = db.Column(db.String(20))
+	passwd = db.Column(db.String(100))
 	contact_info = db.Column(db.String(40))
+
+	def __init__(self, **kw):
+		super(Administrator, self).__init__(**kw)
+		self.id = kw["id"]
+		self.name = kw["name"]
+		self.passwd = generate_password_hash(kw["passwd"])
+		self.contact_info = kw["contact_info"]
+
+	def check_passwd(self, psd):
+		return check_password_hash(self.passwd, psd)
+
 
 	def __repr__(self):
 		return "<Administrator {}>".format(self.name)
