@@ -562,7 +562,7 @@ function render_books(){
                     <th>Book Number</th>
                     <th>Category</th>
                     <th>Title</th>
-                    <th>Publisher</th>
+                    <th>Press</th>
                     <th>Year</th>
                     <th>Author</th>
                     <th>Price</th>

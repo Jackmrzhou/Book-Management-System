@@ -12,5 +12,5 @@ class DevConfig(BaseConfig):
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class ProConfig(BaseConfig):
-	SQLALCHEMY_DATABASE_URI = "mysql://scott:tiger@localhost/mydatabase"
+	SQLALCHEMY_DATABASE_URI = "mysql+pymysql://ex5user@localhost/ex5"
 	SQLALCHEMY_TRACK_MODIFICATIONS = False

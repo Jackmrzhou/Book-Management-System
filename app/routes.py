@@ -56,7 +56,7 @@ def search():
 	if not current_user.is_authenticated:
 		is_public = True
 	return render_template("search.html", is_public = is_public)
-
+'''
 @app.route("/test")
 def test():
 	ads = Administrator.query.all()
@@ -95,3 +95,4 @@ def test():
 				"operator":b.operator.name
 			}for b in bos]
 		})
+'''
