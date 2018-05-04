@@ -2,6 +2,10 @@
 $.ajaxSetup({
     async: false
 });
+
+var global_vars = {}
+
+
 function borrow_book() {
     var card = document.getElementsByName("card_num")[0];
     var book = document.getElementsByName("book_num")[0];
@@ -57,7 +61,10 @@ function return_book() {
 function check_card() {
     var card = document.getElementsByName("card_num")[0];
     $.get("/cardapi", { "cardnum": card.value }, function (data) {
-        render_books_info(data, "book_info");
+        global_vars.book_data = data;
+        global_vars.pagesize = 7;
+        global_vars.label = "book_info";
+        render_books_info();
     })
 }
 
@@ -387,6 +394,7 @@ function bind_submit() {
                     $("#msg").html(create_danger_alert("Uploading failed!"));
                 }
                 $('#mul_form')[0].reset();
+                $("#upload-file-info").html("");
             }
         })
     });
@@ -472,12 +480,19 @@ function check_search_input(){
             }
             if (flag){
                 $("#msg").html(create_danger_alert("Search conditions can't be empty!"))
+                var ds = $("div.has-success");
+                for (let p of ds) {
+                    $(p).removeClass("has-success");
+                }
                 return false;
             }
             else {
                 $.post("/searchapi", $(form).serialize(), function(data){
                     if (data.status == 1){
-                        render_books_info(data, "book_info");
+                        global_vars.book_data = data;
+                        global_vars.pagesize = 5;
+                        global_vars.label = "book_info";
+                        render_books_info();
                     }
                     else {
                         $("#msg").html(create_danger_alert(data.msg));
@@ -488,12 +503,55 @@ function check_search_input(){
     });
 }
 
-function render_books_info(data, label){
+function render_books_info(){
+    var data = global_vars.book_data;
+    var pagesize = global_vars.pagesize;
+    var label = global_vars.label;
     $("#msg").html("");
     if (data.status == 0) {
         $("#msg").html(create_danger_alert(data.msg));
         return;
     }
+    var total_size = data.Book.length;
+    var pages = Math.ceil(total_size / pagesize);
+    var page_tmp=`
+    <nav aria-label="Page navigation" style="text-align: center;">
+        <ul class="pagination">
+            <li>
+                <a class="cur_view" onclick="jumpto(1);">Top</a>
+            </li>
+            <li id="prev" class="disabled">
+                <a aria-label="Previous" onclick="pre_page();" class="cur_view">
+                    <span aria-hidden="true">Previous</span>
+                </a>
+            </li>
+            {}
+            <li id="next">
+                <a aria-label="Next" onclick="next_page();" class="cur_view">
+                    <span aria-hidden="true">Next</span>
+                </a>
+            </li>
+            <li>
+                <a class="cur_view" onclick="jumpto([]);">Bottom</a>
+            </li>
+        </ul>
+	</nav>
+    `.replace("[]", pages);
+    var inner = ``;
+    for (var i = 1; i <= pages; i++){
+        inner += "<li id='page_{}'><a class='cur_view' onclick='jumpto({});'>{}</a></li>".replace(/{}/g, i);
+    }
+    page_tmp = page_tmp.replace("{}", inner);
+    $("#page").html(page_tmp);
+    global_vars.crt_page = 1;
+    jumpto(1);
+}
+
+function render_books(){
+    var data = global_vars.book_data;
+    var start = (global_vars.crt_page-1)*global_vars.pagesize;
+    var end = (global_vars.crt_page)*global_vars.pagesize;
+    var label = global_vars.label;
     var tab = `
         <center>
             <h3><span class='label label-primary'>{}</span></h3>
@@ -516,7 +574,7 @@ function render_books_info(data, label){
         `.replace("{}", data.msg);
     attrs = ["book_num", "category", "name", "publisher", "year", "author",
         "price", "total", "stock"]
-    for (let b of data.Book) {
+    for (let b of data.Book.slice(start, end)) {
         var tr = "<tr>";
         for (let attr of attrs) {
             if (attr == "price")
@@ -529,4 +587,30 @@ function render_books_info(data, label){
     }
     tab += "</tbody></table>";
     $("#"+label).html(tab);
+}
+
+function jumpto(page){
+    $("li.active").removeClass("active");
+    $("#page_{}".replace("{}", page)).addClass("active");
+    if($("#page_{}".replace("{}", page)).prev().attr("id") == "prev"){
+        $("#prev").addClass("disabled");
+    }
+    else {
+        $("#prev").removeClass("disabled");
+    }
+    if($("#page_{}".replace("{}", page)).next().attr("id")=="next"){
+        $("#next").addClass("disabled");
+    }
+    else{
+        $("#next").removeClass("disabled");
+    }
+    global_vars.crt_page = page;
+    render_books();
+}
+function pre_page(){
+    jumpto(global_vars.crt_page-1);
+}
+
+function next_page(){
+    jumpto(global_vars.crt_page+1);
 }

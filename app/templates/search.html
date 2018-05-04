@@ -81,6 +81,29 @@
 					<input id="Price_end" name="Price_end" class="form-control">
 				</div>
 			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Order by:</label>
+				<div class="col-sm-6">
+					<select id="orderby" name="orderby" class="form-control">
+						<option value="def">Default</option>
+						<option value="cate">Category</option>
+						<option value="tit">Title</option>
+						<option value="pub">Publisher</option>
+						<option value="aut">Author</option>
+						<option value="year">Year</option>
+						<option value="pri">Price</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Order:</label>
+				<div class="col-sm-6">
+					<select id="order" name="order" class="form-control">
+						<option value="asce">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+			</div>
 			<div class="col-sm-offset-3 col-sm-6">
 				<input type="submit" id="sub" name="submit" value="Search" class="btn btn-success">
 			</div>
@@ -92,6 +115,9 @@
 		</div>
 	</div>
 	<div id="book_info" class="table-responsive">
+
+	</div>
+	<div id="page">
 
 	</div>
 </div>

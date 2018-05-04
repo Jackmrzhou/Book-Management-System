@@ -50,3 +50,27 @@ def add_one_card(data_dict):
 			return 0, "Card number duplicated!"
 		else:
 			return 0, "Creating card failed. Please contact the DBA."
+
+def process_file(fp):
+	total = 0
+	for line in fp:
+		val = line.split(",")
+		bk = Book(
+			book_num = val[0],
+			category = val[1],
+			name = val[2],
+			publisher = val[3],
+			year = val[4],
+			author = val[5],
+			price = float(val[6]),
+			total = int(val[7]),
+			stock = int(val[7])
+		)
+		db.session.add(bk)
+		total += 1
+	try:
+		db.session.commit()
+	except:
+		db.session.rollback()
+		return -1
+	return total

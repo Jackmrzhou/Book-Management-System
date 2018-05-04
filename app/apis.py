@@ -126,7 +126,12 @@ def upload():
 	try:
 		f = request.files['file']
 		f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
-		return jsonify({"status":1})
+		total = 0
+		with open(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename))) as fp:
+			total = process_file(fp)
+		if total == -1:
+			return jsonify({"status":0})
+		return jsonify({"status":1, 'total':total})
 	except:
 		return jsonify({"status":0})
 
@@ -159,6 +164,20 @@ def searchapi():
 		bs = bs.filter(Book.price >= float(data_dict['Price_start']))
 	if data_dict.get("Price_end") != "":
 		bs = bs.filter(Book.price <= float(data_dict['Price_end']))
+
+	trans = {
+		"def":Book.book_num,
+		"cate":Book.category,
+		"tit":Book.name,
+		"pub":Book.publisher,
+		"aut":Book.author,
+		"year":Book.year,
+		"pri":Book.price
+	}
+	if data_dict.get("order") == "asce":
+		bs = bs.order_by(trans[data_dict.get("orderby")])
+	else:
+		bs = bs.order_by(db.desc(trans[data_dict.get("orderby")]))
 
 	bks = bs.all()
 	if (len(bks)==0):

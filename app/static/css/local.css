@@ -35,3 +35,7 @@ div.center-aligin{
 	padding-left: 15px;
 	padding-right: 15px;
 }
+
+a.cur_view{
+	cursor: pointer;
+}
