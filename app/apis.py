@@ -50,10 +50,15 @@ def cardapi():
 def borrowapi():
 	booknum = request.args.get('booknum')
 	cardnum = request.args.get('cardnum')
+	borrow_record = Borrow.query.filter_by(card_num = cardnum, 
+											book_num = booknum,
+											return_date = None).first()
+	if borrow_record:
+		return jsonify({"status":0, "msg":"The book is alreay in the borrow list."})
 
 	book = Book.query.filter_by(book_num = booknum).first()
 	card = Card.query.filter_by(card_num = cardnum).first()
-	if not (book or card):
+	if not (book and card):
 		return jsonify({"status": 0, "msg":"Book or Card not exsist!"})
 	if book.stock == 0:
 		return jsonify({
